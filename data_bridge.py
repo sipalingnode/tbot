@@ -1,6 +1,9 @@
 # data_bridge.py
 
 data_bridge = {
+    "Arbitrum - BASE": 'pastehex',
+    "Arbitrum - OP": 'pastehex',
+    
     "OP - Arbitrum": 'pastehex',
     "OP - BASE": 'pastehex',
 
