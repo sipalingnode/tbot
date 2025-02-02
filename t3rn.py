@@ -34,7 +34,7 @@ description = """
 """
 
 chain_symbols = {
-    'Arbitrum Sepolia': '\033[34m',
+    'ARB Sepolia': '\033[34m',
     'OP Sepolia': '\033[91m',
     'Blast Sepolia': '\033[93m',
     'Base Sepolia': '\033[96m'
@@ -45,7 +45,7 @@ reset_color = '\033[0m'
 menu_color = '\033[95m'
 
 explorer_urls = {
-    'Arbitrum Sepolia': 'https://sepolia.arbiscan.io/tx/',
+    'ARB Sepolia': 'https://sepolia.arbiscan.io/tx/',
     'OP Sepolia': 'https://sepolia-optimism.etherscan.io/tx/',
     'Blast Sepolia': 'https://testnet.blastscan.io/tx/',
     'Base Sepolia': 'https://sepolia.basescan.org/tx/',
@@ -143,9 +143,9 @@ def display_menu():
     print("")
     print(f"{chain_symbols['OP Sepolia']}1. OP -> BASE Sepolia{reset_color}")
     print(f"{chain_symbols['Base Sepolia']}2. BASE -> OP Sepolia{reset_color}")
-    print(f"{chain_symbols['Arbitrum Sepolia']}3. BASE -> Arbitrum Sepolia{reset_color}")
-    print(f"{chain_symbols['Arbitrum Sepolia']}4. Arbitrum -> BASE Sepolia{reset_color}")
-    print(f"{menu_color}5. Run all transactions repeatedly..recommended.. {reset_color}")
+    print(f"{chain_symbols['ARB Sepolia']}3. BASE -> ARB Sepolia{reset_color}")
+    print(f"{chain_symbols['ARB Sepolia']}4. ARB -> BASE Sepolia{reset_color}")
+    print(f"{menu_color}5. Run All & Looping (Recommended) {reset_color}")
     print("")
     choice = input("choose (1-5): ")
     return choice
@@ -180,21 +180,21 @@ def main():
                     time.sleep(10)
 
             elif choice == '3':
-                print(f"{menu_color}Jalankan transaksi BASE -> Arbitrum Sepolia secara terus-menerus...{reset_color}")
+                print(f"{menu_color}Jalankan transaksi BASE -> ARB Sepolia secara terus-menerus...{reset_color}")
                 while True:
-                    successful_txs = process_network_transactions('Base Sepolia', ["BASE - Arbitrum"], networks['Base Sepolia'], successful_txs)
-                    print("Wait 10 Second for Safety (BASE -> Arbitrum)...")
+                    successful_txs = process_network_transactions('Base Sepolia', ["BASE - ARB"], networks['Base Sepolia'], successful_txs)
+                    print("Wait 10 Second for Safety (BASE -> ARB)...")
                     time.sleep(10)
 
             elif choice == '4':
-                print(f"{menu_color}Jalankan transaksi Arbitrum -> BASE Sepolia secara terus-menerus...{reset_color}")
+                print(f"{menu_color}Jalankan transaksi ARB -> BASE Sepolia secara terus-menerus...{reset_color}")
                 while True:
-                    successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
-                    print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
+                    successful_txs = process_network_transactions('ARB Sepolia', ["ARB - BASE"], networks['ARB Sepolia'], successful_txs)
+                    print("Wait 10 Second for Safety (ARB -> BASE)...")
                     time.sleep(10)
 
             elif choice == '5':
-                print(f"{menu_color}Jalankan transaksi secara terus-menerus dari OP -> BASE, BASE -> OP, BASE -> Arbitrum, Arbitrum -> BASE{reset_color}")
+                print(f"{menu_color}Jalankan transaksi secara terus-menerus dari OP -> BASE, BASE -> OP, BASE -> ARB, ARB -> BASE{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('OP Sepolia', ["OP - BASE"], networks['OP Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (OP -> BASE)...")
@@ -204,12 +204,12 @@ def main():
                     print("Wait 10 Second for Safety (BASE -> OP)...")
                     time.sleep(10)
 
-                    successful_txs = process_network_transactions('Base Sepolia', ["BASE - Arbitrum"], networks['Base Sepolia'], successful_txs)
-                    print("Wait 10 Second for Safety (BASE -> Arbitrum)...")
+                    successful_txs = process_network_transactions('Base Sepolia', ["BASE - ARB"], networks['Base Sepolia'], successful_txs)
+                    print("Wait 10 Second for Safety (BASE -> ARB)...")
                     time.sleep(10)
 
-                    successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
-                    print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
+                    successful_txs = process_network_transactions('ARB Sepolia', ["ARB - BASE"], networks['ARB Sepolia'], successful_txs)
+                    print("Wait 10 Second for Safety (ARB -> BASE)...")
                     time.sleep(10)
 
         except Exception as e:

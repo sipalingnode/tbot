@@ -56,7 +56,7 @@ transfer token antarjaringan dengan cepat dan efisien.
 1. Jalankan bot dengan perintah berikut:
    
    ```bash
-   python t3rn-bot.py
+   python t3rn.py
    ```
 
 2. Bot akan secara otomatis melakukan bridging antarjaringan sesuai dengan konfigurasi yang telah diatur.
