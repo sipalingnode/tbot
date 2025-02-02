@@ -2,9 +2,7 @@ from web3 import Web3
 from eth_account import Account
 import time
 import os
-from data_bridge import data_bridge
-from keys_and_addresses import private_keys, my_addresses, labels
-from network_config import networks
+from config import networks, private_keys, my_addresses, labels, data_bridge
 import codecs
 
 # Fungsi untuk memusatkan teks
@@ -12,11 +10,11 @@ def center_text(text):
     terminal_width = os.get_terminal_size().columns
     lines = text.splitlines()
     centered_lines = [line.center(terminal_width) for line in lines]
-    return "\n".join(centered_lines)
+return "\n".join(centered_lines)
 
 # Fungsi untuk membersihkan terminal
 def clear_terminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
+os.system('cls' if os.name == 'nt' else 'clear')
 
 ascii_art = """
 
@@ -28,10 +26,6 @@ ascii_art = """
  ░███    ░███  ░███  ░███    ░███  ░███    ███  ░███    ░███ ░░███     ███  ░███            ░███    ░███  ███    ░███░░███     ███
  █████   █████ █████ █████   █████ ██████████   █████   █████ ░░░███████░   █████           █████   █████░░█████████  ░░█████████
  ░░░░░   ░░░░░ ░░░░░ ░░░░░   ░░░░░ ░░░░░░░░░░   ░░░░░   ░░░░░    ░░░░░░░    ░░░░░           ░░░░░   ░░░░░  ░░░░░░░░░    ░░░░░░░░░ 
-
-"""
-
-description = """
 
 """
 
@@ -56,7 +50,7 @@ explorer_urls = {
 
 def get_brn_balance(web3, my_address):
     balance = web3.eth.get_balance(my_address)
-    return web3.from_wei(balance, 'ether')
+return web3.from_wei(balance, 'ether')
 
 def send_bridge_transaction(web3, account, my_address, data, network_name):
     my_address = Web3.to_checksum_address(my_address)  # Mengonversi alamat ke format checksum
@@ -118,12 +112,12 @@ def send_bridge_transaction(web3, account, my_address, data, network_name):
         return web3.to_hex(tx_hash), value_in_ether
     except Exception as e:
         print(f"Error sending transaction: {e}")
-        return None, None
+return None, None
 
 def process_network_transactions(network_name, bridges, chain_data, successful_txs):
     web3 = Web3(Web3.HTTPProvider(chain_data['rpc_url']))
     if not web3.is_connected():
-        raise Exception(f"Tidak dapat terhubung ke jaringan {network_name}")
+    raise Exception(f"Tidak dapat terhubung ke jaringan {network_name}")
 
     for bridge in bridges:
         for i, private_key in enumerate(private_keys):
@@ -133,17 +127,14 @@ def process_network_transactions(network_name, bridges, chain_data, successful_t
             if result:
                 tx_hash, value_sent = result
                 successful_txs += 1
-
                 if value_sent is not None:
                     print(f"{chain_symbols[network_name]} Total Tx Sukses: {successful_txs} | {labels[i]} | Bridge: {bridge} | Jumlah Bridge: {value_sent:.5f} ETH ✅{reset_color}\n")
                 else:
                     print(f"{chain_symbols[network_name]} Total Tx Sukses: {successful_txs} | {labels[i]} | Bridge: {bridge} ✅{reset_color}\n")
-
-                print(f"{'='*150}")
-                print("\n")
-            time.sleep(3)
-
-    return successful_txs
+            print(f"{'='*150}")
+        print("\n")
+    time.sleep(3)
+return successful_txs
 
 def display_menu():
     print(f"{menu_color}Pilih chain untuk menjalankan transaksi:{reset_color}")
@@ -155,11 +146,10 @@ def display_menu():
     print(f"{menu_color}5. Run all transactions repeatedly..recommended.. {reset_color}")
     print("")
     choice = input("choose (1-5): ")
-    return choice
+return choice
 
 def main():
-    print("\033[92m" + center_text(ascii_art) + "\033[0m")
-    print(center_text(description))
+    print("\033[92m" + center_text(ascii_art) + "\033[0m")   
     print("\n\n")
 
     successful_txs = 0
@@ -168,7 +158,6 @@ def main():
         choice = display_menu()
         clear_terminal()
         print("\033[92m" + center_text(ascii_art) + "\033[0m")
-        print(center_text(description))
         print("\n\n")
 
         try:
@@ -177,29 +166,25 @@ def main():
                 while True:
                     successful_txs = process_network_transactions('OP Sepolia', ["OP - BASE"], networks['OP Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (OP -> BASE)...")
-                    time.sleep(10)
-
+                time.sleep(10)
             elif choice == '2':
                 print(f"{menu_color}Jalankan transaksi BASE -> OP Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Base Sepolia', ["BASE - OP"], networks['Base Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (BASE -> OP)...")
-                    time.sleep(10)
-
+                time.sleep(10)
             elif choice == '3':
                 print(f"{menu_color}Jalankan transaksi BASE -> Arbitrum Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Base Sepolia', ["BASE - Arbitrum"], networks['Base Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (BASE -> Arbitrum)...")
-                    time.sleep(10)
-
+                time.sleep(10)
             elif choice == '4':
                 print(f"{menu_color}Jalankan transaksi Arbitrum -> BASE Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
-                    time.sleep(10)
-
+                time.sleep(10)
             elif choice == '5':
                 print(f"{menu_color}Jalankan transaksi secara terus-menerus dari OP -> BASE, BASE -> OP, BASE -> Arbitrum, Arbitrum -> BASE{reset_color}")
                 while True:
@@ -217,12 +202,11 @@ def main():
 
                     successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
-                    time.sleep(10)
-
-        except Exception as e:
-            print(f"Terjadi kesalahan: {e}")
-            print("Wait 5 Second for Safety...")
-            time.sleep(5)
+                time.sleep(10)
+    except Exception as e:
+        print(f"Terjadi kesalahan: {e}")
+        print("Wait 5 Second for Safety...")
+time.sleep(5)
 
 if __name__ == "__main__":
     main()
