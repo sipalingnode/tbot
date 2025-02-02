@@ -29,6 +29,10 @@ ascii_art = """
 
 """
 
+description = """
+
+"""
+
 chain_symbols = {
     'Arbitrum Sepolia': '\033[34m',
     'OP Sepolia': '\033[91m',
@@ -68,7 +72,7 @@ def send_bridge_transaction(web3, account, my_address, data, network_name):
         gas_limit = gas_estimate + 50000
     except Exception as e:
         print(f"Error estimating gas: {e}")
-    return None
+        return None
 
     base_fee = web3.eth.get_block('latest')['baseFeePerGas']
     priority_fee = web3.to_wei(5, 'gwei')
@@ -94,12 +98,9 @@ def send_bridge_transaction(web3, account, my_address, data, network_name):
     try:
         tx_hash = web3.eth.send_raw_transaction(signed_txn.raw_transaction)
         tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-
         balance = web3.eth.get_balance(my_address)
         formatted_balance = web3.from_wei(balance, 'ether')
-
         brn_balance = get_brn_balance(Web3(Web3.HTTPProvider('https://brn.rpc.caldera.xyz/http')), my_address)
-
         explorer_link = f"{explorer_urls[network_name]}{web3.to_hex(tx_hash)}"
 
         print(f"{green_color} Alamat Pengirim: {account.address}")
@@ -112,7 +113,7 @@ def send_bridge_transaction(web3, account, my_address, data, network_name):
         return web3.to_hex(tx_hash), value_in_ether
     except Exception as e:
         print(f"Error sending transaction: {e}")
-    return None, None
+        return None, None
 
 def process_network_transactions(network_name, bridges, chain_data, successful_txs):
     web3 = Web3(Web3.HTTPProvider(chain_data['rpc_url']))
@@ -131,9 +132,10 @@ def process_network_transactions(network_name, bridges, chain_data, successful_t
                     print(f"{chain_symbols[network_name]} Total Tx Sukses: {successful_txs} | {labels[i]} | Bridge: {bridge} | Jumlah Bridge: {value_sent:.5f} ETH ✅{reset_color}\n")
                 else:
                     print(f"{chain_symbols[network_name]} Total Tx Sukses: {successful_txs} | {labels[i]} | Bridge: {bridge} ✅{reset_color}\n")
-                    print(f"{'='*150}")
-                    print("\n")
-                time.sleep(3)
+                print(f"{'='*150}")
+                print("\n")
+            time.sleep(3)
+
     return successful_txs
 
 def display_menu():
@@ -149,7 +151,8 @@ def display_menu():
     return choice
 
 def main():
-    print("\033[92m" + center_text(ascii_art) + "\033[0m")   
+    print("\033[92m" + center_text(ascii_art) + "\033[0m")
+    print(center_text(description))
     print("\n\n")
 
     successful_txs = 0
@@ -158,6 +161,7 @@ def main():
         choice = display_menu()
         clear_terminal()
         print("\033[92m" + center_text(ascii_art) + "\033[0m")
+        print(center_text(description))
         print("\n\n")
 
         try:
@@ -166,25 +170,29 @@ def main():
                 while True:
                     successful_txs = process_network_transactions('OP Sepolia', ["OP - BASE"], networks['OP Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (OP -> BASE)...")
-                time.sleep(10)
+                    time.sleep(10)
+
             elif choice == '2':
                 print(f"{menu_color}Jalankan transaksi BASE -> OP Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Base Sepolia', ["BASE - OP"], networks['Base Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (BASE -> OP)...")
-                time.sleep(10)
+                    time.sleep(10)
+
             elif choice == '3':
                 print(f"{menu_color}Jalankan transaksi BASE -> Arbitrum Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Base Sepolia', ["BASE - Arbitrum"], networks['Base Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (BASE -> Arbitrum)...")
-                time.sleep(10)
+                    time.sleep(10)
+
             elif choice == '4':
                 print(f"{menu_color}Jalankan transaksi Arbitrum -> BASE Sepolia secara terus-menerus...{reset_color}")
                 while True:
                     successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
-                time.sleep(10)
+                    time.sleep(10)
+
             elif choice == '5':
                 print(f"{menu_color}Jalankan transaksi secara terus-menerus dari OP -> BASE, BASE -> OP, BASE -> Arbitrum, Arbitrum -> BASE{reset_color}")
                 while True:
@@ -202,11 +210,12 @@ def main():
 
                     successful_txs = process_network_transactions('Arbitrum Sepolia', ["Arbitrum - BASE"], networks['Arbitrum Sepolia'], successful_txs)
                     print("Wait 10 Second for Safety (Arbitrum -> BASE)...")
-                time.sleep(10)
-    except Exception as e:
-        print(f"Terjadi kesalahan: {e}")
-        print("Wait 5 Second for Safety...")
-    time.sleep(5)
+                    time.sleep(10)
+
+        except Exception as e:
+            print(f"Terjadi kesalahan: {e}")
+            print("Wait 5 Second for Safety...")
+            time.sleep(5)
 
 if __name__ == "__main__":
     main()
