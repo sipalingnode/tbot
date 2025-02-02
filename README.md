@@ -56,7 +56,7 @@ transfer token antarjaringan dengan cepat dan efisien.
 ### FAQ
 
 - Q: "Pip install error?"
-- A: Pake virtual environtment:
+- A: "Pake virtual environtment"
    ```bash
    python3 -m venv t3rn
    ```
@@ -64,8 +64,8 @@ transfer token antarjaringan dengan cepat dan efisien.
    source t3rn/bin/activate
    ```
 
-- Q: "Error estimating gas...R07..." / "BRN ga sinkron"
-- A: Ganti HEX dengan punya kalian & pastikan dari transaksi yang sudah berhasil 
+- Q: "Error estimating gas...R07..." / "BRN ga sinkron?"
+- A: "Ganti HEX dengan punya kalian & pastikan dari transaksi yang sudah berhasil"
 
 ### Catatan
 - Jangan lupa pakein screen/tmux.
