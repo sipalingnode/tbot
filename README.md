@@ -55,20 +55,20 @@ transfer token antarjaringan dengan cepat dan efisien.
 
 ### FAQ
 
-1. Q: "Pip install error?"
-   A: Pake virtual environtment:
+- Q: "Pip install error?"
+- A: Pake virtual environtment:
    ```bash
    python3 -m venv t3rn
    ```
    ```bash
    source t3rn/bin/activate
    ```
-   
-2. Q: "Error estimating gas...R07..." / "BRN ga sinkron"
-   A: Ganti HEX dengan punya kalian & pastikan dari transaksi yang sudah berhasil 
+
+- Q: "Error estimating gas...R07..." / "BRN ga sinkron"
+- A: Ganti HEX dengan punya kalian & pastikan dari transaksi yang sudah berhasil 
 
 ### Catatan
-- Bot ini dapat dihentikan kapan saja dengan menggunakan kombinasi **Ctrl + C** di terminal.
+- Jangan lupa pakein screen/tmux.
 - Pastikan saldo yang cukup tersedia di setiap jaringan sebelum memulai bridging.
 
 ### Acknowledgements
